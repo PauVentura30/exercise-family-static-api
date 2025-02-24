@@ -10,6 +10,7 @@ CORS(app)
 jackson_family = FamilyStructure("Jackson")
 
 John = {
+    "id": 1,
     "first_name": "John",
     "last_name": jackson_family.last_name,
     "age": 33,
@@ -17,6 +18,7 @@ John = {
 }
 
 Jane = {
+    "id": 2,
     "first_name": "Jane",
     "last_name": jackson_family.last_name,
     "age": 35,
@@ -24,6 +26,7 @@ Jane = {
 }
 
 Jimmy = {
+    "id": 3,
     "first_name": "Jimmy",
     "last_name": jackson_family.last_name,
     "age": 5,
@@ -64,13 +67,9 @@ def create_member():
 
 @app.route('/member/<int:id>', methods=['DELETE'])
 def delete_single_member(id):
-    member = jackson_family.get_member(id)
- 
-    if member:
-        jackson_family.delete_member(id)
-        return jsonify({"message": f"Member deleted successfully: {member}"}), 200
-    else:
-        return jsonify({"error": "Member not found"}), 404
+    result = jackson_family.delete_member(id)
+    return jsonify(result), (200 if "done" in result else 404)
+
 
 
 if __name__ == '__main__':
